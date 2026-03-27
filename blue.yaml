@@ -12,7 +12,7 @@ spec:
       labels:
         env: blue
     spec:
-      containers:
+    containers:
         - name: c1
           image: nginx
           ports:
