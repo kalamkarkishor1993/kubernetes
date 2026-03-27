@@ -1,0 +1,17 @@
+apiVersion: app/v1
+kind: Deployement
+metadata:
+  - name: netflix
+spec:
+  replicas: 
+  selector:
+  template:
+    metadata:
+      - name: tmp-streaming
+        labels:
+          app: netflix
+          env: dev
+    spec:
+      containers: 
+        - name: netflix
+          image: 

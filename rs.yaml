@@ -1,0 +1,90 @@
+apiVersion: app/v1
+kind:
+metadata:
+  name: rs-demo
+spec:
+   replicas: 3
+   selector:
+     matchLabes:
+       app: frontend
+       env: dev
+  template:
+     metadata:
+      name: tmp-demo
+      labels:
+        app: frontend
+        env: dev
+      spec:
+      containers:
+        - name: c1
+          image: nginx
+
+---
+apiVersion: app/v1
+kind:
+metadata:
+  name: rs-demo
+spec:
+   replicas: 3
+   selector:
+     matchExpression:
+      key: env
+      operator: In
+      values:
+        - dev
+        - test
+     template:
+     metadata:
+      name: tmp-demo
+      labels:
+        app: frontend
+        env: dev
+      spec:
+      containers:
+        - name: c1
+          image: nginx
+
+---
+apiVersion: app/v1
+kind:
+metadata:
+  name: rs-demo
+spec:
+   replicas: 3
+   selector:
+     matchExpression:
+      key: env
+      operator: notIn
+      values:
+        - test
+     template:
+     metadata:
+      name: tmp-demo
+      labels:
+        app: frontend
+        env: dev
+      spec:
+      containers:
+        - name: c1
+          image: nginx
+---
+apiVersion: app/v1
+kind:
+metadata:
+  name: rs-demo
+spec:
+   replicas: 3
+   selector:
+     matchExpression:
+      key: env
+      operator: exists
+     template:
+     metadata:
+      name: tmp-demo
+      labels:
+        app: frontend
+        env: dev
+      spec:
+      containers:
+        - name: c1
+          image: nginx
