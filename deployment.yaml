@@ -1,17 +1,46 @@
-apiVersion: app/v1
-kind: Deployement
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  - name: netflix
+  name: my-deployment
+  namespace: default
+  labels:
+    app: myapp
 spec:
-  replicas: 
+  replicas: 3
   selector:
+    matchLabels:
+      app: myapp
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
   template:
     metadata:
-      - name: tmp-streaming
-        labels:
-          app: netflix
-          env: dev
+      labels:
+        app: myapp
     spec:
-      containers: 
-        - name: netflix
-          image: 
+      containers:
+        - name: myapp-container
+          image: nginx:1.21
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 3
