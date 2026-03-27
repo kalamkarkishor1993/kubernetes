@@ -3,13 +3,13 @@ kind: Pod
 metadata:
   name: mypod
 spec:
-  containers:
+containers:
   - name: myfrontend
     image: nginx
     volumeMounts:
     - mountPath: "/usr/share/nginx/html"   # ← mountPath and name
       name: mypvc                           #    must be together
-  volumes:                                  # ← inside spec
+volumes:                                  # ← inside spec
   - name: mypvc
     persistentVolumeClaim:
       claimName: mypvc
